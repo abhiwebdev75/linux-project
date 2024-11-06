@@ -1,0 +1,76 @@
+step 1:create a project directory:
+mkdir Linux_task_manager
+cd linux_task_manager
+
+Step 2: Create and Open the Script in vi
+vi task_manager.sh
+
+step 3:Script Structure
+#!/bin/bash
+
+TASK_FILE="tasks.txt"  # File to store tasks
+
+# Function to add a task
+add_task() {
+  echo "Enter task description:"
+  read description
+  echo "Task: $description" >> $TASK_FILE
+  echo "Task added successfully!"
+}
+
+# Function to list all tasks
+list_tasks() {
+  if [[ -f $TASK_FILE ]]; then
+    echo "Tasks List:"
+    cat $TASK_FILE
+  else
+    echo "No tasks found."
+  fi
+}
+
+# Function to assign a task to a user
+assign_task() {
+  echo "Enter task number to assign:"
+  read task_number
+  echo "Enter user to assign the task to:"
+  read user
+  sed -i "${task_number}s/$/ - Assigned to $user/" $TASK_FILE
+  echo "Task assigned to $user."
+}
+
+# Function to remove a task
+remove_task() {
+  echo "Enter task number to remove:"
+  read task_number
+  sed -i "${task_number}d" $TASK_FILE
+  echo "Task removed successfully!"
+}
+
+# Main menu
+while true; do
+  echo "Choose an option:"
+  echo "1. Add Task"
+  echo "2. List Tasks"
+  echo "3. Assign Task to User"
+  echo "4. Remove Task"
+  echo "5. Exit"
+  read choice
+
+  case $choice in
+    1) add_task ;;
+    2) list_tasks ;;
+    3) assign_task ;;
+    4) remove_task ;;
+    5) echo "Exiting..."; exit 0 ;;
+    *) echo "Invalid option, please try again." ;;
+  esac
+done
+step 4:
+ Save and Close the File in vi
+Press Esc.
+Type :wq and press Enter.
+step 5:Make the Script Executable
+chmod +x task_manager.sh
+
+Step 6: Run the Script
+./task_manager.sh
